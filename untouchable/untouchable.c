@@ -73,7 +73,7 @@ bool process_event(Display *display, XEvent ev){
 }
 
 int main(int argc, char * argv[]) {
-	XEvent ev;
+    XEvent ev;
     int click_count = 0;
     long last_click_time = 0L;
     long cur_click_time = 0L;
@@ -81,11 +81,11 @@ int main(int argc, char * argv[]) {
     bool hook_enable = true;
 
 
-	display = XOpenDisplay(NULL);
-	if(display == NULL) {
-		if(debug) printf("Could not open display\n");
-		return 1;
-	}
+    display = XOpenDisplay(NULL);
+    if(display == NULL) {
+        if(debug) printf("Could not open display\n");
+        return 1;
+    }
     root = DefaultRootWindow(display);
     
     // start hook
@@ -96,7 +96,7 @@ int main(int argc, char * argv[]) {
         XNextEvent(display, &ev);
         printf("hook_enable == %s\n", hook_enable ? "ENABLED" : "DISABLED");
         switch(ev.type){
-			case ButtonPress:
+            case ButtonPress:
             case ButtonRelease:
             // 1448x1072
                 if(ev.type == ButtonPress && ev.xbutton.x > 1000 && ev.xbutton.y > 1380){
@@ -121,10 +121,10 @@ int main(int argc, char * argv[]) {
                    continue; 
                 }
             break;
-		}
+        }
         passthru_button(display, ev);
     }
-	
+
     cleanup();
-	return 0;
+    return 0;
 }

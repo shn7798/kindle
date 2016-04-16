@@ -5,11 +5,11 @@
 
 */
 
-#include <stdio.h> // printf
-#include <stdbool.h> // bool
-#include <string.h> // memset
-#include <stdlib.h> // strtol
-#include <unistd.h> // usleep
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <X11/XKBlib.h>
 #include <signal.h>
 #include <X11/Xutil.h>
@@ -57,12 +57,16 @@ bool process_event(Display *display, XEvent ev){
     XFetchName(display, focus, &wm_name);
     printf("wm_name == [%s]\n", wm_name);
     if(NULL != strstr(wm_name, "com.lab126.booklet.reader_M")){
+        XFree(wm_name);
     // focus in reader
-        if(ev.xbutton.y > 700){
+        if(ev.xbutton.y > 500){
             ignore_button(display, ev);
             printf("y == %d, ignore\n", ev.xbutton.y);
             return true;
         }
+    }
+    else{
+        XFree(wm_name);
     }
     
     return false;
@@ -86,7 +90,6 @@ int main(int argc, char * argv[]) {
     
     // start hook
     XGrabButton(display, AnyButton, AnyModifier, root, true, ButtonPressMask | ButtonReleaseMask, GrabModeSync, GrabModeSync, None, None);
-    XSelectInput(display, root, KeyPressMask | KeyReleaseMask);
     signal(SIGINT, cleanup);
 
     while(1){
@@ -117,10 +120,6 @@ int main(int argc, char * argv[]) {
                 if(hook_enable && process_event(display, ev)){
                    continue; 
                 }
-			break;
-            case KeyPress:
-            case KeyRelease:
-                printf("key press/release\n");
             break;
 		}
         passthru_button(display, ev);

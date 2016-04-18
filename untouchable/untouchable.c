@@ -20,7 +20,7 @@ void cleanup();
 void ignore_button(Display *dpy, XEvent ev);
 void passthru_button(Display *dpy, XEvent ev);
 
-const int click_tiger_timeout = 2; // seconds
+const int click_triger_timeout = 2; // seconds
 
 int debug = true;
 Display * display;
@@ -59,7 +59,7 @@ bool process_event(Display *display, XEvent ev){
     if(NULL != strstr(wm_name, "com.lab126.booklet.reader_M")){
         XFree(wm_name);
     // focus in reader
-        if(ev.xbutton.y > 500){
+        if(ev.xbutton.y > 500 && ev.xbutton.y < 1400){
             ignore_button(display, ev);
             printf("y == %d, ignore\n", ev.xbutton.y);
             return true;
@@ -99,9 +99,9 @@ int main(int argc, char * argv[]) {
             case ButtonPress:
             case ButtonRelease:
             // 1448x1072
-                if(ev.type == ButtonPress && ev.xbutton.x > 1000 && ev.xbutton.y > 1380){
+                if(ev.type == ButtonPress && ev.xbutton.x > 950 && ev.xbutton.y > 1350){
                     cur_click_time = time(NULL);
-                    if(cur_click_time - last_click_time >= click_tiger_timeout){
+                    if(cur_click_time - last_click_time >= click_triger_timeout){
                         last_click_time = cur_click_time;
                         click_count = 1;
                     }

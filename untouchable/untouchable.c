@@ -56,7 +56,7 @@ bool process_event(Display *display, XEvent ev){
     XGetInputFocus(display, &focus, &revert);
     XFetchName(display, focus, &wm_name);
     printf("wm_name == [%s]\n", wm_name);
-    if(NULL != strstr(wm_name, "com.lab126.booklet.reader_M")){
+    if(NULL != wm_name && NULL != strstr(wm_name, "com.lab126.booklet.reader_M")){
         XFree(wm_name);
     // focus in reader
         if(ev.xbutton.y > 500 && ev.xbutton.y < 1400){
